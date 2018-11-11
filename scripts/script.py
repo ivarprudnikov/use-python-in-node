@@ -17,12 +17,12 @@ def main(argv):
         elif opt in ("-f", "--foo"):
             argument = arg
 
-    print "Start : %s" % time.ctime()
+    print("Start : %s" % time.ctime())
     time.sleep( 5 )
     print('Foo is')
     time.sleep( 5 )
     print(argument)
-    print "End : %s" % time.ctime()
+    print("End : %s" % time.ctime())
 
 if __name__ == "__main__":
     main(sys.argv[1:])
