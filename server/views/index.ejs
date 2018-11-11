@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <%- include('head'); %>
+</head>
+<body>
+
+<%- include('nav'); %>
+
+<main role="main" class="container">
+
+  <div class="row mt-3">
+
+    <div class="col-sm-6">
+      <h1 class="h3 mb-3">Synchronous output</h1>
+      <div class="my-3">
+        <button id="runSync" type="button" class="btn btn-sm btn-outline-primary" onclick="runSync()">Run script
+          synchronously
+        </button>
+      </div>
+      <pre id="outputSync" class="bg-dark text-light p-3 small">... hit the button and wait for output ...</pre>
+    </div>
+    <div class="col-sm-6">
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function runSync() {
+    $("#outputSync").empty()
+    $("#outputSync").show()
+    $("#runSync").prop("disabled", true)
+    $.get("/run-sync")
+      .done(function (data) {
+        $("#outputSync").text(data)
+      })
+      .fail(function (data) {
+        $("#outputSync").text(JSON.stringify(data) || "Error occurred")
+      })
+      .always(function () {
+        $("#runSync").prop("disabled", false)
+      })
+  }
+</script>
+
+</body>
+</html>

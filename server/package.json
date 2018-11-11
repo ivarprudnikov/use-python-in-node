@@ -1,0 +1,43 @@
+{
+  "name": "use-python-in-node",
+  "version": "1.0.0",
+  "description": "HTTP server exposing script.py",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivarprudnikov/use-python-in-node.git"
+  },
+  "keywords": [
+    "python",
+    "node",
+    "node.js"
+  ],
+  "author": "Aivaras Prudnikovas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ivarprudnikov/use-python-in-node/issues"
+  },
+  "homepage": "https://github.com/ivarprudnikov/use-python-in-node#readme",
+  "dependencies": {
+    "ejs": "~2.5.7",
+    "express": "^4.16.3"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "commonjs": true,
+      "node": true,
+      "es6": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+      "semi": 0,
+      "no-console": "warn",
+      "no-unused-vars": "warn"
+    }
+  }
+}
