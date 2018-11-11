@@ -12,7 +12,7 @@
   <div class="row mt-3">
 
     <div class="col-sm-6">
-      <h1 class="h3 mb-3">Synchronous output</h1>
+      <h1 class="h3 mb-3">Synchronous example</h1>
       <div class="my-3">
         <button id="runSync" type="button" class="btn btn-sm btn-outline-primary" onclick="runSync()">Run script
           synchronously
@@ -21,6 +21,10 @@
       <pre id="outputSync" class="bg-dark text-light p-3 small">... hit the button and wait for output ...</pre>
     </div>
     <div class="col-sm-6">
+      <h1 class="h3 mb-3">Websocket example</h1>
+      <button id="runWebsocket" type="button" class="btn btn-sm btn-outline-primary" onclick="runWebsocket()">Run script
+      </button>
+      <pre id="outputWebsocket" class="bg-dark text-light p-3 small">... hit the button and wait for output ...</pre>
     </div>
   </div>
 
@@ -42,6 +46,52 @@
         $("#runSync").prop("disabled", false)
       })
   }
+
+  function runWebsocket() {
+    $("#outputWebsocket").empty()
+    $("#outputWebsocket").show()
+    $("#runWebsocket").prop("disabled", true)
+    $.get("/run-websocket")
+      .done(function (data) {
+        $("#outputWebsocket").text("Request accepted")
+      })
+      .fail(function (data) {
+        $("#outputWebsocket").text(JSON.stringify(data) || "Error occurred")
+      })
+      .always(function () {
+        $("#runWebsocket").prop("disabled", false)
+      })
+  }
+
+  function appendWSText(text) {
+    var txt = $("#outputWebsocket").text()
+    txt += ("\n" + text)
+    $("#outputWebsocket").text(txt)
+  }
+
+  var conn = {}
+  function openConnection() {
+    // uses global 'conn' object
+    if (conn.readyState === undefined || conn.readyState > 1) {
+      conn = new WebSocket('ws://' + window.location.host + '/');
+      conn.onopen = function () {
+        appendWSText("Socket open")
+      };
+      conn.onmessage = function (event) {
+        var message = event.data;
+        appendWSText(message)
+      };
+      conn.onclose = function (event) {
+        appendWSText("Socket closed")
+      };
+    }
+  }
+  if (window.WebSocket === undefined) {
+    appendWSText("Sockets not supported")
+  } else {
+    openConnection();
+  }
+
 </script>
 
 </body>

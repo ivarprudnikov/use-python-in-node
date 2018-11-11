@@ -2,6 +2,10 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const {spawn} = require('child_process')
+const http = require("http")
+const WebSocket = require("ws")
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
 
 const VIEWS_DIR = "views"
 const PUBLIC_DIR = "public"
@@ -23,6 +27,19 @@ app.get('/run-sync', function (req, res) {
   scriptProcess.stderr.pipe(res)
 })
 
+app.get('/run-websocket', function (req, res) {
+  const scriptProcess = runScript("foobar")
+
+  // TODO pipe data to websocket
+
+  wss.clients
+    .forEach(client => {
+      client.send("request accepted");
+    });
+
+  res.send({data:'OK'})
+})
+
 /**
  * @param param {String}
  * @return {ChildProcess}
@@ -40,10 +57,20 @@ function runScript(param) {
   });
 }
 
+// Init websocket communication
+//////////////////////////////////////////////////////////////////////
+wss.on('connection', (ws) => {
+  ws.on('message', (message) => {
+    console.log('received: %s', message);
+    ws.send(`You sent -> ${message}`);
+  });
+  ws.send('Connection with WebSocket server initialized');
+});
+
 // Start server
 //////////////////////////////////////////////////////////////////////
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log('\n');
   console.log('+--------------------------')
   console.log(' PID %d', process.pid)
