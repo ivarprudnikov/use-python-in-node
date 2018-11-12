@@ -18,10 +18,26 @@ def main(argv):
             argument = arg
 
     print("Start : %s" % time.ctime())
-    time.sleep( 5 )
+    time.sleep( 1 )
+    print('.')
+    time.sleep( 1 )
+    print('..')
+    time.sleep( 1 )
+    print('...')
+    time.sleep( 1 )
+    print('....')
+    time.sleep( 1 )
     print('Foo is')
-    time.sleep( 5 )
+    time.sleep( 1 )
     print(argument)
+    time.sleep( 1 )
+    print('....')
+    time.sleep( 1 )
+    print('...')
+    time.sleep( 1 )
+    print('..')
+    time.sleep( 1 )
+    print('.')
     print("End : %s" % time.ctime())
 
 if __name__ == "__main__":

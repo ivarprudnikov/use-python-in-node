@@ -50,17 +50,8 @@
   function runWebsocket() {
     $("#outputWebsocket").empty()
     $("#outputWebsocket").show()
-    $("#runWebsocket").prop("disabled", true)
-    $.get("/run-websocket")
-      .done(function (data) {
-        $("#outputWebsocket").text("Request accepted")
-      })
-      .fail(function (data) {
-        $("#outputWebsocket").text(JSON.stringify(data) || "Error occurred")
-      })
-      .always(function () {
-        $("#runWebsocket").prop("disabled", false)
-      })
+
+    conn.send("run")
   }
 
   function appendWSText(text) {
