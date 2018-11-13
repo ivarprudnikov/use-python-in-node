@@ -54,7 +54,9 @@
     $("#outputWebsocket").empty()
     $("#outputWebsocket").show()
 
-    conn.send("run")
+    openConnection(function (connection) {
+      connection.send("run")
+    })
   }
 
   function appendWSText(text) {
@@ -64,26 +66,30 @@
   }
 
   var conn = {}
-
-  function openConnection() {
+  function openConnection(cb) {
     // uses global 'conn' object
     if (conn.readyState === undefined || conn.readyState > 1) {
       conn = new WebSocket('ws://' + window.location.host + '/');
       conn.onopen = function () {
-        appendWSText("Socket open")
+        appendWSText("\nSocket open")
+        if(typeof cb === "function"){
+          cb(conn)
+        }
       };
       conn.onmessage = function (event) {
         var message = event.data;
         appendWSText(message)
       };
       conn.onclose = function (event) {
-        appendWSText("Socket closed")
+        appendWSText("\nSocket closed")
       };
+    } else if(typeof cb === "function"){
+      cb(conn)
     }
   }
 
   if (window.WebSocket === undefined) {
-    appendWSText("Sockets not supported")
+    appendWSText("\nSockets not supported")
   } else {
     openConnection();
   }
