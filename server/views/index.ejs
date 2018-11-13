@@ -22,8 +22,11 @@
     </div>
     <div class="col-sm-6">
       <h1 class="h3 mb-3">Websocket example</h1>
-      <button id="runWebsocket" type="button" class="btn btn-sm btn-outline-primary" onclick="runWebsocket()">Run script
-      </button>
+      <div class="my-3">
+        <button id="runWebsocket" type="button" class="btn btn-sm btn-outline-primary" onclick="runWebsocket()">Run
+          script
+        </button>
+      </div>
       <pre id="outputWebsocket" class="bg-dark text-light p-3 small">... hit the button and wait for output ...</pre>
     </div>
   </div>
@@ -61,6 +64,7 @@
   }
 
   var conn = {}
+
   function openConnection() {
     // uses global 'conn' object
     if (conn.readyState === undefined || conn.readyState > 1) {
@@ -77,6 +81,7 @@
       };
     }
   }
+
   if (window.WebSocket === undefined) {
     appendWSText("Sockets not supported")
   } else {
