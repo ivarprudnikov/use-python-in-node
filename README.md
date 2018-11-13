@@ -1,5 +1,11 @@
 # use-python-in-node
 
+**Prerequisites**
+
+- _Node.js_ `v10` installed
+- _Python_ `v3` available in the `PATH`
+- Browser supporting _WebSockets_
+
 ## About
 
 This is a simple example of a _Node.js_ server with following features:
