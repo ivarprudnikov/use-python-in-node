@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const path = require('path')
-const {spawn} = require('child_process')
+const {spawn, ChildProcess} = require('child_process')
 const http = require("http")
 const WebSocket = require("ws")
 const server = http.createServer(app);
@@ -32,7 +32,6 @@ app.get('/run-sync', function (req, res) {
  * @return {ChildProcess}
  */
 function runScript(param) {
-
   /*
   python -u script.py --foo bar
   */
@@ -42,31 +41,33 @@ function runScript(param) {
   ]);
 }
 
+/**
+ * @param id {String}
+ * @param ws {WebSocket}
+ */
+function runScriptInWebsocket(id, ws) {
+  const child = runScript("foobar")
+  child.stdout.on('data', (data) => {
+    ws.send(`${id}:${data}`);
+  });
+  child.stderr.on('data', (data) => {
+    ws.send(`${id}:error:\n${data}`);
+  });
+  child.stderr.on('close', () => {
+    ws.send(`${id}:done`);
+  });
+}
+
 // Init websocket communication
 //////////////////////////////////////////////////////////////////////
 let id = 1
 wss.on('connection', (ws) => {
-
   const thisId = id++;
-
   ws.on('message', (message) => {
-
-    console.log('received: %s', message);
     ws.send(`You sent -> ${message}`);
-
     if ("run" === message) {
-      const child = runScript("foobar")
-      child.stdout.on('data', (data) => {
-        ws.send(`${thisId}:${data}`);
-      });
-      child.stderr.on('data', (data) => {
-        ws.send(`${thisId}:error:\n${data}`);
-      });
-      child.stderr.on('close', () => {
-        ws.send(`${thisId}:done`);
-      });
+      runScriptInWebsocket(thisId, ws)
     }
-
   });
   ws.send('Connection with WebSocket server initialized');
 });
