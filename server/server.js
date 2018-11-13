@@ -34,10 +34,10 @@ app.get('/run-sync', function (req, res) {
 function runScript(param) {
 
   /*
-  python script.py --foo bar
+  python -u script.py --foo bar
   */
   return spawn('python', [
-    SCRIPT_PATH,
+    "-u", SCRIPT_PATH,
     "--foo", param,
   ]);
 }
