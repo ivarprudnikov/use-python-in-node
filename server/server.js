@@ -5,7 +5,7 @@ const {spawn} = require('child_process')
 const http = require("http")
 const WebSocket = require("ws")
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({server});
 
 const VIEWS_DIR = "views"
 const PUBLIC_DIR = "public"
@@ -39,9 +39,7 @@ function runScript(param) {
   return spawn('python', [
     SCRIPT_PATH,
     "--foo", param,
-  ], {
-    stdio: "pipe"
-  });
+  ]);
 }
 
 // Init websocket communication
@@ -56,7 +54,7 @@ wss.on('connection', (ws) => {
     console.log('received: %s', message);
     ws.send(`You sent -> ${message}`);
 
-    if("run" === message) {
+    if ("run" === message) {
       const child = runScript("foobar")
       child.stdout.on('data', (data) => {
         ws.send(`${thisId}:${data}`);
