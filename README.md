@@ -8,6 +8,8 @@
 
 ## About
 
+![Preview of sample app](https://github.com/ivarprudnikov/use-python-in-node/raw/master/node-python-websockets-preview.png "Preview of sample app")
+
 This is a simple example of a _Node.js_ server with following features:
 - Enabled WebSocket communication
 - HTTP endpoint which runs `python` script synchronously and returns its output
