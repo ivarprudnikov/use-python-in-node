@@ -53,7 +53,7 @@ function runScriptInWebsocket(id, ws) {
   child.stderr.on('data', (data) => {
     ws.send(`${id}:error:\n${data}`);
   });
-  child.stderr.on('close', () => {
+  child.on('close', () => {
     ws.send(`${id}:done`);
   });
 }
