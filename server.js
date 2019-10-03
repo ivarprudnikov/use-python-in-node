@@ -10,7 +10,7 @@ const wss = new WebSocket.Server({server});
 const VIEWS_DIR = "views"
 const PUBLIC_DIR = "public"
 const PORT = 8080
-const SCRIPT_PATH = path.join(__dirname, '../scripts/script.py')
+const SCRIPT_PATH = path.join(__dirname, 'scripts/script.py')
 
 app.set('views', path.join(__dirname, VIEWS_DIR));
 app.set('view engine', 'ejs');
